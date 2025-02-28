@@ -9,23 +9,19 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class PostsViewModel : ViewModel() {
+class PostDetailViewModel : ViewModel() {
     private val postsService = PostsService()
     private val _uiState = MutableStateFlow<UiState>(UiState.Initial)
     val uiState: StateFlow<UiState> = _uiState
 
-    init {
-        loadPosts()
-    }
-
-    private fun loadPosts() {
+    fun loadPost(id: Int) {
         viewModelScope.launch {
             _uiState.value = UiState.Loading
             try {
-                val posts: List<Post> = postsService.getPosts()
-                _uiState.value = UiState.Success(posts)
+                val post: Post = postsService.getPostById(id)
+                _uiState.value = UiState.Success(post)
             } catch (e: Exception) {
-                _uiState.value = UiState.Error(e.message ?: "Failed to load posts")
+                _uiState.value = UiState.Error(e.message ?: "Failed to load post")
             }
         }
     }
@@ -33,7 +29,7 @@ class PostsViewModel : ViewModel() {
     sealed class UiState {
         data object Initial : UiState()
         data object Loading : UiState()
-        data class Success(val posts: List<Post>) : UiState()
+        data class Success(val post: Post) : UiState()
         data class Error(val message: String) : UiState()
     }
 

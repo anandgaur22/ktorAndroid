@@ -2,12 +2,11 @@ package com.anand.ktorandroid.network
 
 import android.util.Log
 import com.anand.ktorandroid.data.Post
+import com.anand.ktorandroid.network.api.PostApi
 import io.ktor.client.*
-import io.ktor.client.call.*
 import io.ktor.client.engine.android.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
-import io.ktor.client.request.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 
@@ -30,16 +29,13 @@ class PostsService {
         }
     }
 
-    suspend fun getPosts(): List<Post> {
-        try {
-            return client.get("https://jsonplaceholder.typicode.com/posts").body()
-        } catch (e: Exception) {
-            Log.e("PostsService", "Error fetching posts", e)
-            throw e
-        }
-    }
+    private val postApi = PostApi(client)
+
+    suspend fun getPosts(): List<Post> = postApi.getPosts()
+
+    suspend fun getPostById(id: Int): Post = postApi.getPostById(id)
 
     fun close() {
         client.close()
     }
-} 
+}
