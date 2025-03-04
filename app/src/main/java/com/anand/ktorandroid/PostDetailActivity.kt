@@ -24,6 +24,7 @@ import com.anand.ktorandroid.ui.theme.KtorAndroidTheme
 import com.anand.ktorandroid.viewmodel.PostDetailViewModel
 
 class PostDetailActivity : ComponentActivity() {
+
     companion object {
         private const val EXTRA_POST_ID = "post_id"
 

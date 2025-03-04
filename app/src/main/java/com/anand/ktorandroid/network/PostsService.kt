@@ -11,6 +11,7 @@ import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 
 class PostsService {
+
     private val client = HttpClient(Android) {
         install(ContentNegotiation) {
             json(Json {

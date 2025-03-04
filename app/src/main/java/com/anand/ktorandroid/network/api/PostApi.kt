@@ -16,4 +16,23 @@ class PostApi(
     suspend fun getPostById(id: Int): Post {
         return client.get("$baseUrl/posts/$id").body()
     }
+
+
+    /*suspend fun sendProposal(userId: String, proposalId: String, status: String): ProposalResponse? {
+        return try {
+            client.post("$baseUrl/api/general_api/proposalList") {
+                contentType(ContentType.Application.FormUrlEncoded)
+                setBody(
+                    Parameters.build {
+                        append("user_id", userId)
+                        append("proposal_id", proposalId)
+                        append("status", status)
+                    }
+                )
+            }.body()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }*/
 } 
